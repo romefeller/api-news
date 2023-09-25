@@ -5,9 +5,11 @@ dependencies:
 - base
 - yesod-core
 - aeson
+- lens
 - taggy
 - taggy-lens
 - text
+- wreq
 
 # The library contains all of our application code. The executable
 # defined below is just a thin wrapper.
