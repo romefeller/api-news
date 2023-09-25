@@ -9,6 +9,6 @@ import Foundation
 import Yesod.Core
 
 import Home
-import News
+import Model.News
 
 mkYesodDispatch "App" resourcesApp
