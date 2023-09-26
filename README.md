@@ -22,7 +22,7 @@ Fetches all the news articles available with a cache of 10.
 
 - **Endpoint:** `/latest/<qty>/`
 - **Method:** `GET`
-- **Route Name:** `NnewsR`
+- **Route Name:** `LatestR`
 - **Parameters:**
   - `<qty>`: An integer specifying the number of the latest news articles to get.
 
