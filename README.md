@@ -55,4 +55,4 @@ To fetch the latest 5 news articles:
 ```http
 GET /news/5/
 
-curl http://localhost:300/news/5
+curl http://localhost:3000/news/5
