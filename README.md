@@ -1,33 +1,53 @@
-> *Note: This project was generated from the `yesod-minimal` scaffolding, and does not support features like `yesod devel`. If you want these features, use the `yesod-simple` stack template.*
+# API-News
 
-## Haskell Setup
+API-News is a service that provides news-related endpoints, fetching and displaying news articles based on specific criteria from GApiNews. This is only for educational purposes.
 
-1. If you haven't already, [install Stack](https://haskell-lang.org/get-started)
-	* On POSIX systems, this is usually `curl -sSL https://get.haskellstack.org/ | sh`
-2. Install GHC: `stack setup`
-3. Build libraries: `stack build`
+## Routes
 
-## Development
+### 1. Fetch All News Articles
 
-Start a development server with:
+- **Endpoint:** `/`
+- **Method:** `GET`
+- **Route Name:** `AllNewsR`
 
-```
-stack build --exec test-minimal
-```
+Fetches all the news articles available with a cache of 10.
 
-## Documentation
+### 2. Fetch N Latest News Articles
 
-* Read the [Yesod Book](https://www.yesodweb.com/book) online for free
-* Check [Stackage](http://stackage.org/) for documentation on the packages in your LTS Haskell version, or [search it using Hoogle](https://www.stackage.org/lts/hoogle?q=). Tip: Your LTS version is in your `stack.yaml` file.
-* For local documentation, use:
-	* `stack haddock --open` to generate Haddock documentation for your dependencies, and open that documentation in a browser
-	* `stack hoogle <function, module or type signature>` to generate a Hoogle database and search for your query
-* The [Yesod cookbook](https://github.com/yesodweb/yesod-cookbook) has sample code for various needs
+- **Endpoint:** `/latest/<qty>/`
+- **Method:** `GET`
+- **Route Name:** `NnewsR`
+- **Parameters:**
+  - `<qty>`: An integer specifying the number of the latest news articles to get.
 
-## Getting Help
+Fetches and displays the specified number of latest news articles with cache.
 
-* Ask questions on [Stack Overflow, using the Yesod or Haskell tags](https://stackoverflow.com/questions/tagged/yesod+haskell)
-* Ask the [Yesod Google Group](https://groups.google.com/forum/#!forum/yesodweb)
-* There are several chatrooms you can ask for help:
-	* For IRC, try Freenode#yesod and Freenode#haskell
-	* [Functional Programming Slack](https://fpchat-invite.herokuapp.com/), in the #haskell, #haskell-beginners, or #yesod channels.
+### 3. Search Articles by Title
+
+- **Endpoint:** `/news/title/<keyword>/search/`
+- **Method:** `GET`
+- **Route Name:** `TitleSearchR`
+- **Parameters:**
+  - `<keyword>`: A string keyword to search articles based on their title.
+
+Searches and displays news articles where the title contains the specified keyword with cache.
+
+### 4. Search Articles by Content
+
+- **Endpoint:** `/news/content/<keyword>/search`
+- **Method:** `GET`
+- **Route Name:** `ContentSearchR`
+- **Parameters:**
+  - `<keyword>`: A string keyword to search articles based on their content.
+
+Searches and displays news articles where the content contains the specified keyword with cache.
+
+## Usage
+
+To fetch the latest 5 news articles:
+
+```http
+GET /news/5/
+
+```curl
+curl http://localhost:300/news/5

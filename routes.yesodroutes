@@ -1,5 +1,5 @@
 /              AllNewsR GET
-/news/#Int/    NnewsR   GET
+/latest/#Int/  LatestR   GET
 
 /news/title/#String/search   TitleSearchR GET
 /news/content/#String/search ContentSearchR GET

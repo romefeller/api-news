@@ -66,8 +66,8 @@ getContentSearchR keyword = getNewsByStringR keyword content
 getTitleSearchR :: String -> Handler Value
 getTitleSearchR keyword = getNewsByStringR keyword title
 
-getNnewsR :: Int -> Handler Value
-getNnewsR n = cachedFunction $ \news -> do
+getLatestR :: Int -> Handler Value
+getLatestR n = cachedFunction $ \news -> do
     case news of
          Left err -> sendResponseStatus internalServerError500 (pack err)
          Right items -> returnJson $ object ["data" .= (take n (articles items))]
