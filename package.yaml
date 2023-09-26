@@ -5,6 +5,7 @@ dependencies:
 - base
 - yesod-core
 - aeson
+- http-types
 - lens
 - taggy
 - taggy-lens

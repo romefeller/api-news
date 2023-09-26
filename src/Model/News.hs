@@ -4,7 +4,7 @@
 
 module Model.News where
 
-import Data.Aeson (FromJSON, ToJSON)
+import Data.Aeson (FromJSON, ToJSON, withObject)
 import Foundation
 import GHC.Generics (Generic)
 
@@ -14,7 +14,7 @@ data Article = Article
     { title       :: String
     , description :: String
     , content     :: String
-    , urlArticle  :: String
+    , url         :: String
     , image       :: String
     , publishedAt :: String
     , source      :: Source
@@ -32,7 +32,12 @@ data News = News
 
 instance FromJSON Article
 instance ToJSON Article
-instance FromJSON Source
+
+instance FromJSON Source where
+    parseJSON = withObject "Source" $ \v -> Source
+        <$> v .: "name"
+        <*> v .: "url"
+
 instance ToJSON Source
 instance FromJSON News
 instance ToJSON News
