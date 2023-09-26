@@ -3,21 +3,7 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages:
-- completed:
-    hackage: taggy-0.2.1@sha256:7bc55ddba178971dc6052163597f0445a0a2b5b0ca0e84ce651d53d722e3c265,4662
-    pantry-tree:
-      sha256: 0b3140ad52833bf8498da1bdc9745105128e109515a6102f87884c2d43b6f18d
-      size: 1667
-  original:
-    hackage: taggy-0.2.1
-- completed:
-    hackage: taggy-lens-0.1.2@sha256:091ca81d02bd3d7fb493dce0148e1a38f25eb178a1ebd751043a23239e5e3265,3009
-    pantry-tree:
-      sha256: 332730a4a17634a4d0948a68811e52bb9d5c61065181aed47aec6abd88c75871
-      size: 323
-  original:
-    hackage: taggy-lens-0.1.2
+packages: []
 snapshots:
 - completed:
     sha256: 8017c7970c2a8a9510c60cc70ac245d59e0c34eb932b91d37af09fe59855d854

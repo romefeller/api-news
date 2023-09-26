@@ -5,8 +5,10 @@
 module Foundation where
 
 import Yesod.Core
+import Control.Concurrent
+import Model.Cache
 
-data App = App
+data App = App {getCache :: MVar NewsCache}
 
 mkYesodData "App" $(parseRoutesFile "routes.yesodroutes")
 

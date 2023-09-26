@@ -5,7 +5,6 @@
 module Model.News where
 
 import Data.Aeson (FromJSON, ToJSON, withObject)
-import Foundation
 import GHC.Generics (Generic)
 
 import Yesod.Core

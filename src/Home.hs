@@ -15,10 +15,12 @@ import Data.Text hiding (take, filter)
 import Model.News
 import Network.HTTP.Types.Status
 
-import Text.Taggy.Renderer
-import Text.Taggy
+import qualified Data.Cache.LRU as LR
+import Control.Concurrent
 
 import Yesod.Core
+
+type NewsCache = LR.LRU String News
 
 allNews :: IO (Either String News)
 allNews = do
@@ -26,9 +28,32 @@ allNews = do
     respBody <- get url
     return $ eitherDecode' $ respBody ^. responseBody
 
+-- Use cache to efficentely store, in memory, the news
+cachedNews :: NewsCache -> IO (Either String News, NewsCache)
+cachedNews cache = do
+    let (updatedCache, maybeNews) = LR.lookup "cachedNews" cache
+    case maybeNews of
+        Just news -> return (Right news, updatedCache)
+        Nothing -> do
+            result <- allNews
+            case result of
+                Left err -> return (Left err, updatedCache)
+                Right news ->
+                    let newCache = LR.insert "cachedNews" news updatedCache
+                    in return (Right news, newCache)
+
+-- Continuation: DRY
+cachedFunction :: (Either String News -> Handler a) -> Handler a
+cachedFunction route = do
+    app <- getYesod
+    let mvarCache = getCache app
+    cache <- liftIO $ takeMVar mvarCache
+    (news, updatedCache) <- liftIO $ cachedNews cache
+    liftIO $ putMVar mvarCache updatedCache
+    route news
+
 getNewsByStringR :: String -> (Article -> String) -> Handler Value
-getNewsByStringR keyword projection = do
-    news <- liftIO allNews
+getNewsByStringR keyword projection = cachedFunction $ \news -> do
     case news of
          Left err -> sendResponseStatus internalServerError500 (pack err)
          Right items ->
@@ -42,16 +67,14 @@ getTitleSearchR :: String -> Handler Value
 getTitleSearchR keyword = getNewsByStringR keyword title
 
 getNnewsR :: Int -> Handler Value
-getNnewsR n = do
-    news <- liftIO allNews
+getNnewsR n = cachedFunction $ \news -> do
     case news of
          Left err -> sendResponseStatus internalServerError500 (pack err)
          Right items -> returnJson $ object ["data" .= (take n (articles items))]
 
 
 getAllNewsR :: Handler Value
-getAllNewsR = do
-    news <- liftIO allNews
+getAllNewsR = cachedFunction $ \news -> do
     case news of
          Left err -> sendResponseStatus internalServerError500 (pack err)
          Right items -> do
