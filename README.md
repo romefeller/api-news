@@ -2,6 +2,12 @@
 
 API-News is a service that provides news-related endpoints, fetching and displaying news articles based on specific criteria from GApiNews. This is only for educational purposes.
 
+## Installation
+
+- step 1) *Install stack (https://docs.haskellstack.org/en/stable/)*
+- step 2) *stack build*
+- step 3) *stack exec api-news*
+
 ## Routes
 
 ### 1. Fetch All News Articles
